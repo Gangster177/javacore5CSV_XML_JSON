@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<root>
+    <company>
+        <equipment/>
+        <staff>
+            <employee firstname="Nikita" id="3" lastname="Shumskii">
+                <tool>123456</tool>
+            </employee>
+        </staff>
+    </company>
+</root>
