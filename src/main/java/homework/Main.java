@@ -7,6 +7,10 @@ import com.opencsv.CSVReader;
 import com.opencsv.bean.ColumnPositionMappingStrategy;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
@@ -23,17 +27,57 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
-        //TODO Task1
-        String[] columnMapping = {"id", "firstName", "lastName", "country", "age"};
-        String fileName = "data.csv";
-        List<Employee> list = parseCSV(columnMapping, fileName);
-        String json = listToJson(list);
-        writeString(json);
+//        //TODO Task1
+//        String[] columnMapping = {"id", "firstName", "lastName", "country", "age"};
+//        String fileName = "data.csv";
+//        List<Employee> list = parseCSV(columnMapping, fileName);
+//        String json = listToJson(list);
+//        writeString(json);
+//
+//        //TODO Task2
+//        List<Employee> list2 = parseXML("new_data.xml");
+//        String json2 = listToJson(list2);
+//        writeString(json2);
 
-        //TODO Task2
-        List<Employee> list2 = parseXML("data.xml");
-        String json2 = listToJson(list2);
-        writeString(json2);
+        //TODO Task3
+        String json3 = readString("data.json");
+        System.out.println(json3);
+    }
+//Выполнение задачи следует начать с получения JSON из файла.
+// Сделайте это с помощью метода readString():
+//
+//String json = readString("new_data.json");
+
+//Метод readString() реализуйте самостоятельно с использованием BufferedReader и FileReader.
+// Метод должен возвращать прочитанный из файла JSON типа String.
+//
+//Прочитанный JSON необходимо преобразовать в список сотрудников.
+// Сделайте это с помощью метода jsonToList():
+//
+//List<Employee> list = jsonToList(json);
+
+//При реализации метода jsonToList() вам потребуются такие объекта как:
+// JSONParser, GsonBuilder, Gson. JSONParser даст вам возможность с помощью
+// метода parse() получить из строчки json массив JSONArray.
+// GsonBuilder будет использован исключительно для создания экземпляра Gson.
+// Пройдитесь циклом по всем элементам jsonArray и преобразуйте
+// все jsonObject в Employee.class с помощью метода gson.fromJson().
+// Полученные экземпляры класса Employee добавляйте в список,
+// который должен быть выведен из метода после его окончания.
+//
+//Далее, выведите содержимое полученного списка в консоль.
+// Не забудьте переопределить метод toString() в классе Employee.
+    private static String readString(String s) {
+        String readJSON = null;
+        JSONParser parser = new JSONParser();
+        try{
+            Object obj = parser.parse(new FileReader(s));
+            JSONObject jsonObject = (JSONObject) obj;
+            readJSON = jsonObject.toString();
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+        return readJSON;
     }
 
     public static List<Employee> parseXML(String s) throws ParserConfigurationException, IOException, SAXException {
@@ -94,7 +138,7 @@ public class Main {
     }
 
     public static void writeString(String text) {
-        try (FileWriter writer = new FileWriter("data.json")) {
+        try (FileWriter writer = new FileWriter("new_data.json")) {
             writer.write(text);
             writer.flush();
         } catch (IOException ex) {
